@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Explorers - Digital Footprint & Citizenship Magazine</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            dark: '#0B132B',
+                            card: '#1C2541',
+                            panel: '#111827',
+                            cyan: '#00F2FE',
+                            electric: '#4FACFE',
+                            accent: '#06B6D4',
+                            deep: '#0891B2',
+                            border: '#155E75',
+                            light: '#E0F2FE',
+                            muted: '#94A3B8'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070D1B;
+            color: #E0F2FE;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .cyan-border {
+            border: 1px solid rgba(6, 182, 212, 0.35);
+        }
+        .cyan-border-strong {
+            border: 2px solid #00F2FE;
+        }
+        .cyan-gradient-text {
+            background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cyan-bg-gradient {
+            background: linear-gradient(135deg, #00F2FE 0%, #0891B2 100%);
+        }
+        .paper-texture {
+            background-color: #0F172A;
+            background-image: radial-gradient(#1E293B 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glow-cyan:hover {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0B132B;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #06B6D4;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="custom-scrollbar min-h-screen flex flex-col justify-between">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-theme-dark/95 backdrop-blur-md border-b border-theme-border/60 px-4 lg:px-8 py-3 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('page-1')">
+                <div class="w-10 h-10 rounded-full cyan-bg-gradient text-theme-dark flex items-center justify-center font-cinzel font-black text-xl shadow-lg shadow-cyan-500/20">
+                    6
+                </div>
+                <div>
+                    <h1 class="font-cinzel font-bold text-lg md:text-xl text-white tracking-wider">DIGITAL EXPLORERS</h1>
+                    <p class="text-xs font-sans text-theme-cyan tracking-widest uppercase">SMA Negeri 1 Lembang • Group 6</p>
+                </div>
+            </div>
+
+            <!-- Page Navigation Buttons -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <button onclick="navigateTo('page-1')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 1: Intro</button>
+                <button onclick="navigateTo('page-2')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 2: Thesis</button>
+                <button onclick="navigateTo('page-3')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 3: Arg 1</button>
+                <button onclick="navigateTo('page-4')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 4: Arg 2</button>
+                <button onclick="navigateTo('page-5')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 5: Arg 3</button>
+                <button onclick="navigateTo('page-6')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 6: Tips</button>
+                <button onclick="navigateTo('page-7')" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-theme-accent/20 hover:text-theme-cyan transition text-theme-light">Page 7: Team</button>
+            </nav>
+
+            <div class="flex items-center space-x-2">
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 text-theme-light focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden pt-3 pb-2 px-2 border-t border-theme-border/50 mt-2">
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <button onclick="navigateTo('page-1'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">1. Introduction & Cover</button>
+                <button onclick="navigateTo('page-2'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">2. Thesis Statement</button>
+                <button onclick="navigateTo('page-3'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">3. Arg 1: Permanence</button>
+                <button onclick="navigateTo('page-4'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">4. Arg 2: Privacy & Identity</button>
+                <button onclick="navigateTo('page-5'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">5. Arg 3: Well-being</button>
+                <button onclick="navigateTo('page-6'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">6. Recommendations</button>
+                <button onclick="navigateTo('page-7'); toggleMobileMenu();" class="p-2 text-left bg-theme-card rounded border border-theme-border">7. Conclusion & Team</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN MAGAZINE CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8">
+
+        <!-- ================= PAGE 1: COVER & INTRO ================= -->
+        <section id="page-1" class="magazine-page transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl relative overflow-hidden mb-8">
+                <div class="flex flex-col lg:flex-row gap-8 items-center">
+                    <!-- Left Column: Title & Intro -->
+                    <div class="w-full lg:w-1/2 space-y-6">
+                        <div class="border-b border-theme-border/60 pb-4">
+                            <div class="flex justify-between items-center text-xs tracking-widest text-theme-cyan font-mono uppercase mb-1">
+                                <span>Group: 6 • XI F-4</span>
+                                <span>12 November, 2026</span>
+                            </div>
+                            <h1 class="font-cinzel text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-2">
+                                DIGITAL EXPLORERS
+                            </h1>
+                            <p class="font-playfair italic text-lg text-theme-cyan">
+                                "Responsible for your digital footprint!"
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <h2 class="font-cinzel text-xl text-white border-l-2 border-theme-cyan pl-3">
+                                Introduction to Digital Citizenship & Digital Footprint
+                            </h2>
+                            <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                                In today's digital era, technology and the internet are deeply embedded in our daily routines. Every comment, photo, or piece of personal information we upload creates a permanent trail known as a <strong class="text-theme-cyan font-semibold">digital footprint</strong>.
+                            </p>
+                            <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                                Being a responsible digital citizen means recognizing that our online actions have real-world consequences. This digital magazine aims to guide students on how to manage their digital footprints wisely and safely.
+                            </p>
+                        </div>
+
+                        <!-- Quote Banner -->
+                        <div class="bg-theme-card/80 p-4 rounded-xl border border-theme-border/60 relative">
+                            <i class="fa-solid fa-quote-left text-theme-cyan/20 text-4xl absolute right-3 bottom-2"></i>
+                            <p class="font-playfair italic text-theme-cyan font-semibold text-center text-base md:text-lg">
+                                "YOUR DIGITAL FOOTPRINT REFLECTS YOUR IDENTITY. THINK BEFORE YOU POST!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Post Risk Simulator -->
+                    <div class="w-full lg:w-1/2 flex flex-col items-center">
+                        <div class="w-full max-w-md bg-theme-panel rounded-3xl p-6 cyan-border-strong shadow-2xl space-y-4">
+                            <div class="flex justify-between items-center border-b border-theme-border/50 pb-3 text-xs text-theme-muted font-mono">
+                                <span><i class="fa-solid fa-shield-halved text-theme-cyan mr-1"></i> Post Risk Simulator</span>
+                                <span>Interactive Draft Checker</span>
+                            </div>
+
+                            <p class="text-xs text-theme-muted">Test your post idea before sharing it on social media:</p>
+                            
+                            <textarea id="sim-post-input" rows="3" class="w-full bg-theme-card border border-theme-border/60 rounded-xl p-3 text-sm text-theme-light focus:outline-none focus:border-theme-cyan placeholder-slate-500" placeholder="Type your draft post here (e.g., sharing anger about a classmate, posting your address, or a favorite inspirational quote)..."></textarea>
+
+                            <button onclick="analyzeSimPost()" class="w-full cyan-bg-gradient text-theme-dark font-bold py-2.5 rounded-xl text-sm hover:opacity-95 transition flex items-center justify-center">
+                                <i class="fa-solid fa-magnifying-glass-chart mr-2"></i> Analyze Post Impact
+                            </button>
+
+                            <div id="sim-post-result" class="hidden p-4 rounded-xl text-xs space-y-2 border transition-all"></div>
+                        </div>
+                        <p class="text-xs text-theme-muted mt-3 italic text-center">FOR THE KIDS OF TOMORROW — Page 1</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 2: THESIS STATEMENT ================= -->
+        <section id="page-2" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <!-- Header -->
+                    <div class="text-center space-y-2 border-b border-theme-border/60 pb-4">
+                        <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Page 2 • Core Exposition</span>
+                        <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">THESIS STATEMENT</h2>
+                        <p class="font-playfair italic text-theme-muted">Why Managing Your Digital Footprint Matters?</p>
+                    </div>
+
+                    <!-- Thesis Card -->
+                    <div class="bg-gradient-to-r from-theme-card via-theme-panel to-theme-card p-6 md:p-8 rounded-2xl border-l-4 border-theme-cyan space-y-4 shadow-xl">
+                        <div class="flex items-center space-x-3 text-theme-cyan">
+                            <i class="fa-solid fa-compass text-2xl"></i>
+                            <h3 class="font-cinzel text-lg font-bold">Thesis Statement</h3>
+                        </div>
+                        <blockquote class="text-base md:text-xl font-playfair italic text-white leading-relaxed">
+                            "Schools must promote responsible digital citizenship because students need to understand how to manage their digital footprints safely, ethically, and wisely in order to protect their future."
+                        </blockquote>
+                    </div>
+
+                    <!-- Article Breakdown -->
+                    <div class="space-y-4">
+                        <h3 class="font-cinzel text-xl text-white flex items-center">
+                            <i class="fa-solid fa-lightbulb text-theme-cyan mr-2"></i> Why Managing Your Digital Footprint Matters?
+                        </h3>
+                        <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                            As young people spend more hours connected to smartphones, social media, and online platforms, the boundary between our offline lives and digital presence is rapidly disappearing. Many students view the internet merely as a space for entertainment and self-expression, often overlooking the lasting impact of their clicks, likes, and uploads. However, every action taken online forms a permanent digital profile that shapes how the world perceives us.
+                        </p>
+
+                        <!-- Interactive Accordions -->
+                        <div class="space-y-3 pt-2">
+                            <div class="bg-theme-card rounded-xl border border-theme-border/60 overflow-hidden">
+                                <button onclick="toggleAccordion('acc-1')" class="w-full p-4 text-left flex justify-between items-center font-semibold text-white hover:bg-theme-border/30 transition">
+                                    <span><i class="fa-solid fa-shield-halved text-theme-cyan mr-2"></i> Protecting Personal Privacy & Identity Safety</span>
+                                    <i id="acc-1-icon" class="fa-solid fa-chevron-down text-theme-cyan transition-transform"></i>
+                                </button>
+                                <div id="acc-1" class="hidden p-4 border-t border-theme-border/40 text-sm text-theme-muted space-y-2">
+                                    Protects personal privacy from cyber threats, identity theft, online stalking, and scamming targeting teenagers.
+                                </div>
+                            </div>
+
+                            <div class="bg-theme-card rounded-xl border border-theme-border/60 overflow-hidden">
+                                <button onclick="toggleAccordion('acc-2')" class="w-full p-4 text-left flex justify-between items-center font-semibold text-white hover:bg-theme-border/30 transition">
+                                    <span><i class="fa-solid fa-graduation-cap text-theme-cyan mr-2"></i> Safeguarding Future Academic & Career Goals</span>
+                                    <i id="acc-2-icon" class="fa-solid fa-chevron-down text-theme-cyan transition-transform"></i>
+                                </button>
+                                <div id="acc-2" class="hidden p-4 border-t border-theme-border/40 text-sm text-theme-muted space-y-2">
+                                    Universities and employers conduct background checks on applicants' digital footprints. Careless posts can jeopardize future scholarships and job offers.
+                                </div>
+                            </div>
+
+                            <div class="bg-theme-card rounded-xl border border-theme-border/60 overflow-hidden">
+                                <button onclick="toggleAccordion('acc-3')" class="w-full p-4 text-left flex justify-between items-center font-semibold text-white hover:bg-theme-border/30 transition">
+                                    <span><i class="fa-solid fa-brain text-theme-cyan mr-2"></i> Cultivating Mental Well-being & Respectful Communities</span>
+                                    <i id="acc-3-icon" class="fa-solid fa-chevron-down text-theme-cyan transition-transform"></i>
+                                </button>
+                                <div id="acc-3" class="hidden p-4 border-t border-theme-border/40 text-sm text-theme-muted space-y-2">
+                                    Cultivating a positive online reputation reduces cyber-drama, anxiety, and online hostility, promoting healthier mental well-being for all.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 3: ARGUMENT 1 ================= -->
+        <section id="page-3" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Column: Argument Text -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="border-b border-theme-border/60 pb-3">
+                            <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Supporting Arguments • Page 3</span>
+                            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1">
+                                ARGUMENT 1: PERMANENT NATURE AND FUTURE CONSEQUENCES
+                            </h2>
+                        </div>
+
+                        <div class="bg-theme-card p-4 rounded-xl border-l-2 border-theme-cyan font-playfair italic text-theme-cyan text-lg">
+                            "Once it is online, it stays there forever."
+                        </div>
+
+                        <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                            Whatever students post today—whether it is an inappropriate comment, an embarrassing photo, or sensitive personal data—can be screenshotted, archived, and shared permanently. Universities and future employers frequently check applicants' digital footprints during the screening process. Therefore, students must realize that careless online behavior can permanently damage their academic and career opportunities.
+                        </p>
+
+                        <!-- Citation & Clickable External Link -->
+                        <div class="bg-theme-panel p-5 rounded-xl border border-theme-border text-xs space-y-3">
+                            <div class="flex items-center text-theme-cyan font-semibold text-sm">
+                                <i class="fa-solid fa-bookmark mr-2"></i> eSafety Commissioner Citation
+                            </div>
+                            <p class="text-theme-muted italic leading-relaxed">
+                                According to the eSafety Commissioner, a person's digital reputation can affect friendships, relationships, and future job opportunities. Everything people post, share, like, or comment on contributes to their digital footprint. Even old posts can influence how others judge someone's character.
+                            </p>
+                            <a href="https://www.esafety.gov.au/key-topics/staying-safe/digital-reputation" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-theme-border/40 text-theme-cyan font-semibold hover:bg-theme-accent hover:text-theme-dark transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Access eSafety Australia Resource
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Timeline Tool -->
+                    <div class="lg:col-span-5 flex flex-col justify-between">
+                        <div class="bg-theme-card p-6 rounded-2xl cyan-border space-y-4">
+                            <h3 class="font-cinzel text-lg text-white flex items-center">
+                                <i class="fa-solid fa-clock-rotate-left text-theme-cyan mr-2"></i> Digital Content Lifecycle
+                            </h3>
+                            <p class="text-xs text-theme-muted">Click each milestone below to explore how online content persists over time:</p>
+
+                            <div class="space-y-3 text-xs">
+                                <div onclick="showTimelineStep(1)" class="timeline-step cursor-pointer p-3 rounded-lg border border-theme-border/60 hover:bg-theme-border/30 transition flex items-center justify-between">
+                                    <span>1. Immediate Post (Day 1)</span>
+                                    <i class="fa-solid fa-chevron-right text-theme-cyan"></i>
+                                </div>
+                                <div onclick="showTimelineStep(2)" class="timeline-step cursor-pointer p-3 rounded-lg border border-theme-border/60 hover:bg-theme-border/30 transition flex items-center justify-between">
+                                    <span>2. Archived & Screenshotted (6 Months)</span>
+                                    <i class="fa-solid fa-chevron-right text-theme-cyan"></i>
+                                </div>
+                                <div onclick="showTimelineStep(3)" class="timeline-step cursor-pointer p-3 rounded-lg border border-theme-border/60 hover:bg-theme-border/30 transition flex items-center justify-between">
+                                    <span>3. College / Employment Screening (3 Years)</span>
+                                    <i class="fa-solid fa-chevron-right text-theme-cyan"></i>
+                                </div>
+                            </div>
+
+                            <div id="timeline-detail" class="p-4 bg-theme-panel rounded-xl text-xs text-theme-light border border-theme-border/40 min-h-[90px] flex items-center justify-center text-center italic text-theme-muted">
+                                Select a milestone above to view details.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 4: ARGUMENT 2 ================= -->
+        <section id="page-4" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Column: Argument Content -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="border-b border-theme-border/60 pb-3">
+                            <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Supporting Arguments • Page 4</span>
+                            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1">
+                                ARGUMENT 2: PROTECTING PERSONAL PRIVACY AND AVOIDING IDENTITY RISKS
+                            </h2>
+                        </div>
+
+                        <div class="bg-theme-card p-4 rounded-xl border-l-2 border-theme-cyan font-playfair italic text-theme-cyan text-lg">
+                            "Protecting personal information from misuse."
+                        </div>
+
+                        <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                            Oversharing personal details such as home addresses, phone numbers, or daily routines creates serious security risks. Cybercriminals and identity thieves often exploit poorly managed digital footprints to track, harass, or scam teenagers. By practicing careful posting habits and setting strict privacy controls, students safeguard themselves from online predators and identity theft.
+                        </p>
+
+                        <!-- Citation & Clickable External Link -->
+                        <div class="bg-theme-panel p-5 rounded-xl border border-theme-border text-xs space-y-3">
+                            <div class="flex items-center text-theme-cyan font-semibold text-sm">
+                                <i class="fa-solid fa-user-shield mr-2"></i> Privacy Commissioner of Canada Citation
+                            </div>
+                            <p class="text-theme-muted italic leading-relaxed">
+                                According to the Office of the Privacy Commissioner of Canada, social media, online games, and digital applications collect and use people's personal information. If students do not protect their data, their information may be misused.
+                            </p>
+                            <a href="https://www.priv.gc.ca/en/privacy-topics/information-and-advice-for-individuals/privacy-and-young-people/resources-teens/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-theme-border/40 text-theme-cyan font-semibold hover:bg-theme-accent hover:text-theme-dark transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Access Privacy Resources for Teens
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Privacy Checkup Calculator -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-theme-panel p-6 rounded-2xl cyan-border-strong space-y-4 shadow-xl">
+                            <div class="flex justify-between items-center border-b border-theme-border/60 pb-3">
+                                <h3 class="font-cinzel text-base font-bold text-white flex items-center">
+                                    <i class="fa-solid fa-sliders text-theme-cyan mr-2"></i> Account Privacy Checkup
+                                </h3>
+                                <span class="text-xs cyan-bg-gradient text-theme-dark font-bold px-2 py-0.5 rounded">Interactive Tool</span>
+                            </div>
+
+                            <p class="text-xs text-theme-muted">Select all privacy habits you currently practice:</p>
+
+                            <div class="space-y-2 text-xs">
+                                <label class="flex items-center space-x-2 bg-theme-card p-2.5 rounded-lg border border-theme-border/60 cursor-pointer hover:border-theme-cyan">
+                                    <input type="checkbox" onchange="calculatePrivacyScore()" class="privacy-chk rounded text-theme-cyan focus:ring-0">
+                                    <span>Use strong, unique passwords for every account</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-theme-card p-2.5 rounded-lg border border-theme-border/60 cursor-pointer hover:border-theme-cyan">
+                                    <input type="checkbox" onchange="calculatePrivacyScore()" class="privacy-chk rounded text-theme-cyan focus:ring-0">
+                                    <span>Enabled Two-Factor Authentication (2FA)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-theme-card p-2.5 rounded-lg border border-theme-border/60 cursor-pointer hover:border-theme-cyan">
+                                    <input type="checkbox" onchange="calculatePrivacyScore()" class="privacy-chk rounded text-theme-cyan focus:ring-0">
+                                    <span>Set social media profiles to Private mode</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-theme-card p-2.5 rounded-lg border border-theme-border/60 cursor-pointer hover:border-theme-cyan">
+                                    <input type="checkbox" onchange="calculatePrivacyScore()" class="privacy-chk rounded text-theme-cyan focus:ring-0">
+                                    <span>Avoid sharing phone numbers & live location</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-theme-card p-2.5 rounded-lg border border-theme-border/60 cursor-pointer hover:border-theme-cyan">
+                                    <input type="checkbox" onchange="calculatePrivacyScore()" class="privacy-chk rounded text-theme-cyan focus:ring-0">
+                                    <span>Decline friend requests from strangers</span>
+                                </label>
+                            </div>
+
+                            <div class="pt-2 border-t border-theme-border/50 flex justify-between items-center">
+                                <span class="text-xs font-semibold text-white">Privacy Protection Index:</span>
+                                <span id="privacy-score-val" class="font-bold text-sm text-theme-cyan">0%</span>
+                            </div>
+                            <div class="w-full bg-theme-card rounded-full h-2.5">
+                                <div id="privacy-score-bar" class="cyan-bg-gradient h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <p id="privacy-score-desc" class="text-[11px] text-theme-muted italic text-center">Check the items above to evaluate your privacy health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 5: ARGUMENT 3 ================= -->
+        <section id="page-5" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Column: Argument Text -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="border-b border-theme-border/60 pb-3">
+                            <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Supporting Arguments • Page 5</span>
+                            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1">
+                                ARGUMENT 3: BUILDING A POSITIVE REPUTATION AND MENTAL WELL-BEING
+                            </h2>
+                        </div>
+
+                        <div class="bg-theme-card p-4 rounded-xl border-l-2 border-theme-cyan font-playfair italic text-theme-cyan text-lg">
+                            "Cultivating a positive online reputation and mental health."
+                        </div>
+
+                        <p class="text-sm md:text-base text-theme-light/90 leading-relaxed">
+                            A positive digital footprint reflects kindness, integrity, and digital maturity. When students intentionally use social media to share educational content, support peers, or inspire positive discussions, they build a respectful digital community. Furthermore, minimizing reckless online interactions reduces cyber-drama and anxiety, supporting healthier mental well-being for all students.
+                        </p>
+
+                        <!-- Citation & Clickable External Link -->
+                        <div class="bg-theme-panel p-5 rounded-xl border border-theme-border text-xs space-y-3">
+                            <div class="flex items-center text-theme-cyan font-semibold text-sm">
+                                <i class="fa-solid fa-graduation-cap mr-2"></i> Common Sense Education Citation
+                            </div>
+                            <p class="text-theme-muted italic leading-relaxed">
+                                According to Common Sense Education, a person's digital footprint can create positive or negative impressions of their identity. Sharing useful information, communicating politely, and respecting other people's privacy can help build a positive online reputation.
+                            </p>
+                            <a href="https://www.commonsense.org/education/digital-citizenship/topic/digital-footprint-and-identity" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-theme-border/40 text-theme-cyan font-semibold hover:bg-theme-accent hover:text-theme-dark transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Access Common Sense Education Resource
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive DOs and DON'Ts Matrix -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-theme-card p-6 rounded-2xl cyan-border space-y-4">
+                            <h3 class="font-cinzel text-base font-bold text-white flex items-center justify-between">
+                                <span><i class="fa-solid fa-scale-balanced text-theme-cyan mr-2"></i> Online Etiquette Guidelines</span>
+                            </h3>
+
+                            <div class="flex border-b border-theme-border/60 text-xs font-semibold">
+                                <button id="tab-dos-btn" onclick="switchEtiquetteTab('dos')" class="flex-1 py-2 text-center border-b-2 border-theme-cyan text-theme-cyan">
+                                    <i class="fa-solid fa-circle-check text-cyan-400 mr-1"></i> DOs (Positive Actions)
+                                </button>
+                                <button id="tab-donts-btn" onclick="switchEtiquetteTab('donts')" class="flex-1 py-2 text-center text-theme-muted hover:text-white">
+                                    <i class="fa-solid fa-circle-xmark text-red-400 mr-1"></i> DON'Ts (Risky Actions)
+                                </button>
+                            </div>
+
+                            <div id="tab-dos-content" class="space-y-2 text-xs">
+                                <div class="bg-theme-panel p-3 rounded-lg border border-cyan-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Share educational articles, creative art, or community projects.</span>
+                                </div>
+                                <div class="bg-theme-panel p-3 rounded-lg border border-cyan-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Comment respectfully and support your peers' achievements.</span>
+                                </div>
+                                <div class="bg-theme-panel p-3 rounded-lg border border-cyan-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-check text-cyan-400 mt-0.5"></i>
+                                    <span>Ask for permission before tagging others in photos or videos.</span>
+                                </div>
+                            </div>
+
+                            <div id="tab-donts-content" class="hidden space-y-2 text-xs">
+                                <div class="bg-theme-panel p-3 rounded-lg border border-red-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+                                    <span>Post hurtful comments, cyberbullying content, or hate speech.</span>
+                                </div>
+                                <div class="bg-theme-panel p-3 rounded-lg border border-red-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+                                    <span>Spread unverified rumors, false news, or private chat screenshots.</span>
+                                </div>
+                                <div class="bg-theme-panel p-3 rounded-lg border border-red-500/30 flex items-start space-x-2">
+                                    <i class="fa-solid fa-xmark text-red-400 mt-0.5"></i>
+                                    <span>Share live locations, school schedules, or personal phone numbers publicly.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 6: RECOMMENDATIONS ================= -->
+        <section id="page-6" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <!-- Header -->
+                    <div class="text-center space-y-2 border-b border-theme-border/60 pb-4">
+                        <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Page 6 • Actionable Insights</span>
+                        <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-white">RECOMMENDATIONS</h2>
+                        <p class="font-playfair italic text-theme-muted">Targeted Strategies for Students, Teachers, and Schools</p>
+                    </div>
+
+                    <!-- Category Filter Buttons -->
+                    <div class="flex justify-center space-x-2 border-b border-theme-border/40 pb-4">
+                        <button id="rec-btn-all" onclick="filterRec('all')" class="px-4 py-2 rounded-xl text-xs font-bold cyan-bg-gradient text-theme-dark transition">All Categories</button>
+                        <button id="rec-btn-student" onclick="filterRec('student')" class="px-4 py-2 rounded-xl text-xs font-bold bg-theme-card text-white border border-theme-border hover:border-theme-cyan transition">For Students</button>
+                        <button id="rec-btn-teacher" onclick="filterRec('teacher')" class="px-4 py-2 rounded-xl text-xs font-bold bg-theme-card text-white border border-theme-border hover:border-theme-cyan transition">For Teachers</button>
+                        <button id="rec-btn-school" onclick="filterRec('school')" class="px-4 py-2 rounded-xl text-xs font-bold bg-theme-card text-white border border-theme-border hover:border-theme-cyan transition">For Schools</button>
+                    </div>
+
+                    <!-- Recommendations Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Student Card -->
+                        <div class="rec-card rec-student bg-theme-card p-6 rounded-2xl cyan-border space-y-3 relative overflow-hidden">
+                            <div class="text-theme-cyan text-3xl"><i class="fa-solid fa-user-graduate"></i></div>
+                            <h3 class="font-cinzel text-lg font-bold text-white">For Students</h3>
+                            <ul class="text-xs text-theme-light/90 space-y-2 list-disc list-inside">
+                                <li>Think twice before clicking <strong>"post"</strong>.</li>
+                                <li>Review privacy settings regularly across all apps.</li>
+                                <li>Avoid sharing sensitive personal details publicly.</li>
+                                <li>Consider how a post might look to a future employer or university admissions officer.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Teacher Card -->
+                        <div class="rec-card rec-teacher bg-theme-card p-6 rounded-2xl cyan-border space-y-3 relative overflow-hidden">
+                            <div class="text-theme-cyan text-3xl"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <h3 class="font-cinzel text-lg font-bold text-white">For Teachers</h3>
+                            <ul class="text-xs text-theme-light/90 space-y-2 list-disc list-inside">
+                                <li>Integrate discussions about digital footprints into daily classroom lessons.</li>
+                                <li>Guide students on ethical online behavior and respectful digital etiquette.</li>
+                                <li>Provide safe, open spaces for students to discuss cyber challenges.</li>
+                            </ul>
+                        </div>
+
+                        <!-- School Card -->
+                        <div class="rec-card rec-school bg-theme-card p-6 rounded-2xl cyan-border space-y-3 relative overflow-hidden">
+                            <div class="text-theme-cyan text-3xl"><i class="fa-solid fa-school"></i></div>
+                            <h3 class="font-cinzel text-lg font-bold text-white">For Schools</h3>
+                            <ul class="text-xs text-theme-light/90 space-y-2 list-disc list-inside">
+                                <li>Organize digital awareness workshops and expert seminars.</li>
+                                <li>Implement clear internet safety and acceptable use policies.</li>
+                                <li>Run school-wide campaigns on responsible digital citizenship.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 7: CONCLUSION & TEAM ================= -->
+        <section id="page-7" class="magazine-page hidden transition-all duration-500">
+            <div class="paper-texture rounded-2xl p-6 md:p-10 cyan-border shadow-2xl mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Column: Conclusion & References -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="border-b border-theme-border/60 pb-3">
+                            <span class="text-xs font-mono text-theme-cyan tracking-widest uppercase">Page 7 • Closing & References</span>
+                            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-white mt-1">
+                                CONCLUSION & REFERENCES
+                            </h2>
+                        </div>
+
+                        <!-- Campaign Closing Banner -->
+                        <div class="bg-theme-panel p-6 rounded-2xl border-2 border-theme-cyan space-y-3 text-center">
+                            <h3 class="font-cinzel text-lg font-bold text-theme-cyan">Campaign Conclusion & Final Message</h3>
+                            <p class="text-sm text-theme-light italic leading-relaxed">
+                                "Managing our digital footprints is not just about avoiding trouble; it is about taking ownership of our digital identities. Let us build a legacy online that we can be proud of."
+                            </p>
+                            <div class="pt-2 text-xs font-bold text-theme-dark cyan-bg-gradient rounded-lg py-2.5 uppercase tracking-wider">
+                                "Be Smart, Be Safe, Be Responsible. Your digital footprint reflects your identity!"
+                            </div>
+                        </div>
+
+                        <!-- References List with Functional External Links -->
+                        <div class="bg-theme-card p-5 rounded-2xl border border-theme-border text-xs space-y-3">
+                            <h4 class="font-cinzel font-bold text-theme-cyan flex items-center">
+                                <i class="fa-solid fa-book-bookmark mr-2"></i> References & Verified Sources
+                            </h4>
+                            <ul class="space-y-1.5 text-theme-muted list-disc list-inside">
+                                <li>Ministry of Education Guidelines on Digital Citizenship</li>
+                                <li>School Project Handbook: Hortatory Exposition Text Project (SMA Negeri 1 Lembang)</li>
+                                <li>Online Safety and Digital Footprint Educational Frameworks (2026)</li>
+                            </ul>
+                            <div class="pt-3 border-t border-theme-border/50 space-y-2">
+                                <a href="https://www.esafety.gov.au/key-topics/staying-safe/digital-reputation" target="_blank" rel="noopener noreferrer" class="flex items-center text-theme-cyan hover:underline truncate">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] mr-2"></i> esafety.gov.au — Staying Safe & Digital Reputation
+                                </a>
+                                <a href="https://www.priv.gc.ca/en/privacy-topics/information-and-advice-for-individuals/privacy-and-young-people/resources-teens/" target="_blank" rel="noopener noreferrer" class="flex items-center text-theme-cyan hover:underline truncate">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] mr-2"></i> priv.gc.ca — Privacy and Young People Resources
+                                </a>
+                                <a href="https://www.commonsense.org/education/digital-citizenship/topic/digital-footprint-and-identity" target="_blank" rel="noopener noreferrer" class="flex items-center text-theme-cyan hover:underline truncate">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] mr-2"></i> commonsense.org — Digital Footprint & Identity Framework
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Member Group Card -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-theme-panel p-6 rounded-2xl cyan-border-strong space-y-5 text-center relative overflow-hidden">
+                            <div class="border-b border-theme-border/60 pb-3">
+                                <span class="text-xs font-mono text-theme-cyan uppercase">SMA Negeri 1 Lembang</span>
+                                <h3 class="font-cinzel text-xl font-bold text-white mt-1">MEMBER GROUP 6</h3>
+                                <p class="text-xs text-theme-muted">Class: XI F-4</p>
+                            </div>
+
+                            <div class="space-y-2.5">
+                                <div class="p-2.5 bg-theme-card rounded-xl border border-theme-border/60 font-semibold text-sm text-theme-light hover:border-theme-cyan transition">
+                                    1. Dewi Arum
+                                </div>
+                                <div class="p-2.5 bg-theme-card rounded-xl border border-theme-border/60 font-semibold text-sm text-theme-light hover:border-theme-cyan transition">
+                                    2. Fadli Ahsanul Hakim
+                                </div>
+                                <div class="p-2.5 bg-theme-card rounded-xl border border-theme-border/60 font-semibold text-sm text-theme-light hover:border-theme-cyan transition">
+                                    3. Queenza Faiha Rifda
+                                </div>
+                                <div class="p-2.5 bg-theme-card rounded-xl border border-theme-border/60 font-semibold text-sm text-theme-light hover:border-theme-cyan transition">
+                                    4. Rezky Aditya
+                                </div>
+                                <div class="p-2.5 bg-theme-card rounded-xl border border-theme-border/60 font-semibold text-sm text-theme-light hover:border-theme-cyan transition">
+                                    5. Wina Fitriani
+                                </div>
+                            </div>
+
+                            <div class="pt-3 border-t border-theme-border/50 text-[11px] text-theme-muted italic">
+                                "Digital Explorers — Black and White Vintage Tales Magazine Edition"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CONTROLS / PAGINATION -->
+    <footer class="bg-theme-dark border-t border-theme-border/60 py-4 px-4 sticky bottom-0 z-40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <button id="prev-btn" onclick="prevPage()" class="bg-theme-card hover:bg-theme-accent hover:text-theme-dark text-white font-bold px-4 py-2 rounded-xl text-xs md:text-sm transition flex items-center border border-theme-border">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Previous
+            </button>
+
+            <div class="text-center font-mono text-xs text-theme-cyan">
+                Page <span id="current-page-num" class="font-bold text-white">1</span> of 7
+            </div>
+
+            <button id="next-btn" onclick="nextPage()" class="cyan-bg-gradient text-theme-dark font-bold px-4 py-2 rounded-xl text-xs md:text-sm hover:opacity-90 transition flex items-center">
+                Next <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CONTROLLERS -->
+    <script>
+        let currentPage = 1;
+        const totalPages = 7;
+
+        function updatePagination() {
+            document.getElementById('current-page-num').innerText = currentPage;
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === totalPages;
+            
+            document.getElementById('prev-btn').style.opacity = currentPage === 1 ? '0.5' : '1';
+            document.getElementById('next-btn').style.opacity = currentPage === totalPages ? '0.5' : '1';
+
+            // Hide all pages
+            for (let i = 1; i <= totalPages; i++) {
+                const p = document.getElementById(`page-${i}`);
+                if (p) p.classList.add('hidden');
+            }
+
+            // Show active page
+            const activePage = document.getElementById(`page-${currentPage}`);
+            if (activePage) activePage.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateTo(pageId) {
+            const pageNum = parseInt(pageId.replace('page-', ''));
+            if (pageNum >= 1 && pageNum <= totalPages) {
+                currentPage = pageNum;
+                updatePagination();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Accordion Controller
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(`${id}-icon`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Post Risk Simulator Logic
+        function analyzeSimPost() {
+            const val = document.getElementById('sim-post-input').value.trim().toLowerCase();
+            const resultBox = document.getElementById('sim-post-result');
+            resultBox.classList.remove('hidden');
+
+            if (!val) {
+                resultBox.className = "p-3 rounded-xl text-xs bg-cyan-950/60 border border-cyan-500/50 text-cyan-200";
+                resultBox.innerHTML = "<i class='fa-solid fa-circle-info mr-1'></i> Please enter a sample post to evaluate risk level.";
+                return;
+            }
+
+            const riskyKeywords = ['hate', 'angry', 'stolen', 'password', 'address', 'stupid', 'ugly', 'secret', 'phone number', 'cheat'];
+            const foundRisks = riskyKeywords.filter(k => val.includes(k));
+
+            if (foundRisks.length > 0) {
+                resultBox.className = "p-3 rounded-xl text-xs bg-red-950/80 border border-red-500/60 text-red-200";
+                resultBox.innerHTML = `<strong><i class='fa-solid fa-triangle-exclamation mr-1'></i> High Digital Footprint Risk Detected!</strong><br>This draft contains sensitive or emotional triggers ("${foundRisks.join(', ')}"). Screenshots could permanently affect your future university applications or employment background checks.`;
+            } else {
+                resultBox.className = "p-3 rounded-xl text-xs bg-cyan-900/60 border border-cyan-400/60 text-cyan-200";
+                resultBox.innerHTML = `<strong><i class='fa-solid fa-circle-check mr-1'></i> Post Looks Safe!</strong><br>No obvious personal data or high-risk keywords detected. Always remember: ensure your tone remains respectful and considerate to everyone.`;
+            }
+        }
+
+        // Timeline Step Logic
+        function showTimelineStep(step) {
+            const detail = document.getElementById('timeline-detail');
+            if (step === 1) {
+                detail.innerText = "Immediate Post (Day 1): You post a spontaneous emotional rant or private detail online. It seems temporary or minor to you.";
+            } else if (step === 2) {
+                detail.innerText = "6 Months Later: Someone takes a screenshot or stores the post in a public web archive, even if you delete the original post.";
+            } else if (step === 3) {
+                detail.innerText = "3 Years Later: College admission panels or potential employers conduct background checks and discover the archived content.";
+            }
+        }
+
+        // Privacy Score Calculator Logic
+        function calculatePrivacyScore() {
+            const checkboxes = document.querySelectorAll('.privacy-chk');
+            let checkedCount = 0;
+            checkboxes.forEach(chk => { if (chk.checked) checkedCount++; });
+            
+            const percent = Math.round((checkedCount / checkboxes.length) * 100);
+            document.getElementById('privacy-score-val').innerText = `${percent}%`;
+            document.getElementById('privacy-score-bar').style.width = `${percent}%`;
+
+            const desc = document.getElementById('privacy-score-desc');
+            if (percent === 100) {
+                desc.innerText = "Excellent! Your digital privacy and security settings are optimal.";
+                desc.className = "text-[11px] text-cyan-400 font-semibold text-center";
+            } else if (percent >= 60) {
+                desc.innerText = "Good progress! Consider strengthening the remaining security steps.";
+                desc.className = "text-[11px] text-cyan-300 font-semibold text-center";
+            } else {
+                desc.innerText = "Warning! Your online account may be vulnerable to data leaks or identity risks.";
+                desc.className = "text-[11px] text-red-400 font-semibold text-center";
+            }
+        }
+
+        // Etiquette Tab Switching
+        function switchEtiquetteTab(tab) {
+            const dosBtn = document.getElementById('tab-dos-btn');
+            const dontsBtn = document.getElementById('tab-donts-btn');
+            const dosContent = document.getElementById('tab-dos-content');
+            const dontsContent = document.getElementById('tab-donts-content');
+
+            if (tab === 'dos') {
+                dosBtn.className = "flex-1 py-2 text-center border-b-2 border-theme-cyan text-theme-cyan font-semibold";
+                dontsBtn.className = "flex-1 py-2 text-center text-theme-muted hover:text-white";
+                dosContent.classList.remove('hidden');
+                dontsContent.classList.add('hidden');
+            } else {
+                dontsBtn.className = "flex-1 py-2 text-center border-b-2 border-theme-cyan text-theme-cyan font-semibold";
+                dosBtn.className = "flex-1 py-2 text-center text-theme-muted hover:text-white";
+                dontsContent.classList.remove('hidden');
+                dosContent.classList.add('hidden');
+            }
+        }
+
+        // Recommendation Filtering Logic
+        function filterRec(type) {
+            const cards = document.querySelectorAll('.rec-card');
+            const btns = ['all', 'student', 'teacher', 'school'];
+
+            btns.forEach(b => {
+                const btnEl = document.getElementById(`rec-btn-${b}`);
+                if (b === type) {
+                    btnEl.className = "px-4 py-2 rounded-xl text-xs font-bold cyan-bg-gradient text-theme-dark transition";
+                } else {
+                    btnEl.className = "px-4 py-2 rounded-xl text-xs font-bold bg-theme-card text-white border border-theme-border hover:border-theme-cyan transition";
+                }
+            });
+
+            cards.forEach(card => {
+                if (type === 'all' || card.classList.contains(`rec-${type}`)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Initialize Page Navigation
+        window.onload = function() {
+            updatePagination();
+        };
+    </script>
+</body>
+</html>
